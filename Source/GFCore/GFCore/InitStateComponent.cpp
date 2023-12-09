@@ -177,6 +177,8 @@ void UInitStateComponent::CheckDefaultInitialization()
 
 	CheckDefaultInitializationForImplementers();
 
+	// @TODO: Allow changes from DeveloperSetting
+
 	static const TArray<FGameplayTag> StateChain
 	{
 		TAG_InitState_Spawned,
