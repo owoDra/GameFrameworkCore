@@ -2,7 +2,7 @@
 
 #include "InitStateSubsystem.h"
 
-#include "InitStateTags.h"
+#include "InitState/InitStateTags.h"
 
 #include "Components/GameFrameworkComponentManager.h"
 

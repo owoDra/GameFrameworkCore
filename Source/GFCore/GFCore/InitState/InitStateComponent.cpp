@@ -1,8 +1,8 @@
 ﻿// Copyright (C) 2023 owoDra
 
-#include "InitStateComponent.h"
+#include "InitState/InitStateComponent.h"
 
-#include "InitStateTags.h"
+#include "InitState/InitStateTags.h"
 
 #include "Components/GameFrameworkComponentManager.h"
 

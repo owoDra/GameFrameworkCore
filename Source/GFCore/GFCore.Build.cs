@@ -33,6 +33,7 @@ public class GFCore : ModuleRules
         PrivateDependencyModuleNames.AddRange(
             new string[]
             {
+                "NetCore",
                 "AIModule",
             }
         );

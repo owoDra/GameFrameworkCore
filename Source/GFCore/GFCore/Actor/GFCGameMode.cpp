@@ -21,6 +21,14 @@ AGFCGameModeBase::AGFCGameModeBase(const FObjectInitializer& ObjectInitializer)
 	DefaultPawnClass = AGFCPawn::StaticClass();
 }
 
+
+void AGFCGameModeBase::OnPostLogin(AController* NewPlayer)
+{
+	Super::OnPostLogin(NewPlayer);
+
+	OnGameModeCombinedPostLogin.Broadcast(this, NewPlayer);
+}
+
 #pragma endregion
 
 
@@ -33,6 +41,14 @@ AGFCGameMode::AGFCGameMode(const FObjectInitializer& ObjectInitializer)
 	PlayerControllerClass = AGFCPlayerController::StaticClass();
 	PlayerStateClass = AGFCPlayerState::StaticClass();
 	DefaultPawnClass = AGFCPawn::StaticClass();
+}
+
+
+void AGFCGameMode::OnPostLogin(AController* NewPlayer)
+{
+	Super::OnPostLogin(NewPlayer);
+
+	OnGameModeCombinedPostLogin.Broadcast(this, NewPlayer);
 }
 
 #pragma endregion
