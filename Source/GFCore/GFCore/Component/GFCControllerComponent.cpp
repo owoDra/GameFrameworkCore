@@ -1,29 +1,32 @@
-﻿// Copyright (C) 2023 owoDra
+// Copyright (C) 2023 owoDra
 
-#include "InitState/InitStateComponent.h"
+#include "GFCControllerComponent.h"
 
 #include "InitState/InitStateTags.h"
+#include "InitState/InitStateComponent.h"
+#include "GFCoreLogs.h"
 
 #include "Components/GameFrameworkComponentManager.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(InitStateComponent)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(GFCControllerComponent)
 
 
-const FName UInitStateComponent::NAME_ActorFeatureName("InitState");
-
-UInitStateComponent::UInitStateComponent(const FObjectInitializer& ObjectInitializer)
+UGFCControllerComponent::UGFCControllerComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	PrimaryComponentTick.bStartWithTickEnabled = false;
-	PrimaryComponentTick.bCanEverTick = false;
 }
 
 
-void UInitStateComponent::OnRegister()
+void UGFCControllerComponent::OnRegister()
 {
 	Super::OnRegister();
 
-	// No more than two of these components should be added to a Pawn.
+	// This component can only be added to classes derived from AController
+
+	const auto* Controller{ GetController<AController>() };
+	ensureAlwaysMsgf((Controller != nullptr), TEXT("[%s] on [%s] can only be added to Controller actors."), *GetNameSafe(StaticClass()), *GetNameSafe(GetOwner()));
+
+	// No more than two of these components should be added to a Actor.
 
 	TArray<UActorComponent*> Components;
 	GetOwner()->GetComponents(StaticClass(), Components);
@@ -34,7 +37,7 @@ void UInitStateComponent::OnRegister()
 	RegisterInitStateFeature();
 }
 
-void UInitStateComponent::BeginPlay()
+void UGFCControllerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -52,7 +55,7 @@ void UInitStateComponent::BeginPlay()
 	CheckDefaultInitialization();
 }
 
-void UInitStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void UGFCControllerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	UnregisterInitStateFeature();
 
@@ -60,12 +63,12 @@ void UInitStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 }
 
 
-bool UInitStateComponent::CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const
+bool UGFCControllerComponent::CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const
 {
 	check(Manager);
 
 	/**
-	 * [None] -> [Spawned]
+	 * [InitState None] -> [InitState Spawned]
 	 */
 	if (!CurrentState.IsValid() && DesiredState == TAG_InitState_Spawned)
 	{
@@ -82,24 +85,24 @@ bool UInitStateComponent::CanChangeInitState(UGameFrameworkComponentManager* Man
 	 */
 	else if (CurrentState == TAG_InitState_Spawned && DesiredState == TAG_InitState_DataAvailable)
 	{
-		return CanChangeInitStateToDataAvailable(Manager);
-	}
-
-	/**
-	 * [DataAvailable] -> [DataInitialized]
-	 */
-	else if (CurrentState == TAG_InitState_DataAvailable && DesiredState == TAG_InitState_DataInitialized)
-	{
-		if (!Manager->HaveAllFeaturesReachedInitState(GetOwner(), TAG_InitState_DataInitialized, NAME_ActorFeatureName))
+		if (!Manager->HasFeatureReachedInitState(GetOwner(), UInitStateComponent::NAME_ActorFeatureName, TAG_InitState_DataAvailable))
 		{
 			return false;
 		}
 
+		return CanChangeInitStateToDataAvailable(Manager);
+	}
+
+	/**
+	 * [InitState DataAvailable] -> [InitState DataInitialized]
+	 */
+	else if (CurrentState == TAG_InitState_DataAvailable && DesiredState == TAG_InitState_DataInitialized)
+	{
 		return CanChangeInitStateToDataInitialized(Manager);
 	}
 
 	/**
-	 * [DataInitialized] -> [GameplayReady]
+	 * [InitState DataInitialized] -> [InitState GameplayReady]
 	 */
 	else if (CurrentState == TAG_InitState_DataInitialized && DesiredState == TAG_InitState_GameplayReady)
 	{
@@ -109,9 +112,14 @@ bool UInitStateComponent::CanChangeInitState(UGameFrameworkComponentManager* Man
 	return false;
 }
 
-void UInitStateComponent::HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState)
+void UGFCControllerComponent::HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState)
 {
 	check(Manager);
+
+	UE_LOG(LogGFC, Log, TEXT("[%s] %s: InitState Reached: %s"),
+		GetOwner()->HasAuthority() ? TEXT("SERVER") : TEXT("CLIENT"),
+		*GetNameSafe(this),
+		*DesiredState.GetTagName().ToString());
 
 	/**
 	 * [InitState None] -> [InitState Spawned]
@@ -142,45 +150,23 @@ void UInitStateComponent::HandleChangeInitState(UGameFrameworkComponentManager* 
 	 */
 	else if (CurrentState == TAG_InitState_DataInitialized && DesiredState == TAG_InitState_GameplayReady)
 	{
-		OnGameReadyDelegate.Broadcast();
-
 		HandleChangeInitStateToGameplayReady(Manager);
 	}
 }
 
-void UInitStateComponent::OnActorInitStateChanged(const FActorInitStateChangedParams& Params)
+void UGFCControllerComponent::OnActorInitStateChanged(const FActorInitStateChangedParams& Params)
 {
-	// Executed when the initialization state is changed 
-	// by a feature other than this component of the actor that owns this component.
-
-	if (Params.FeatureName != NAME_ActorFeatureName)
+	if (Params.FeatureName == UInitStateComponent::NAME_ActorFeatureName)
 	{
-		/**
-		 * -> [DataInitialized]
-		 */
-		if (Params.FeatureState == TAG_InitState_DataInitialized)
-		{
-			CheckDefaultInitialization();
-		}
-
-		/**
-		 * -> [GameplayReady]
-		 */
-		else if (Params.FeatureState == TAG_InitState_GameplayReady)
+		if (Params.FeatureState == TAG_InitState_DataAvailable)
 		{
 			CheckDefaultInitialization();
 		}
 	}
 }
 
-void UInitStateComponent::CheckDefaultInitialization()
+void UGFCControllerComponent::CheckDefaultInitialization()
 {
-	// Perform initialization state checks on other features before checking the initialization state of this component
-
-	CheckDefaultInitializationForImplementers();
-
-	// @TODO: Allow changes from DeveloperSetting
-
 	static const TArray<FGameplayTag> StateChain
 	{
 		TAG_InitState_Spawned,
@@ -190,13 +176,4 @@ void UInitStateComponent::CheckDefaultInitialization()
 	};
 
 	ContinueInitStateChain(StateChain);
-}
-
-
-void UInitStateComponent::OnGameReady_Register(FSimpleMulticastDelegate::FDelegate Delegate)
-{
-	if (!OnGameReadyDelegate.IsBoundToObject(Delegate.GetUObject()))
-	{
-		OnGameReadyDelegate.Add(Delegate);
-	}
 }
