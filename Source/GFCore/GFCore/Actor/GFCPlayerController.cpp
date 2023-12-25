@@ -1,6 +1,6 @@
 // Copyright (C) 2023 owoDra
 
-#include "GFCPlayerController.h"
+#include "Actor/GFCPlayerController.h"
 
 #include "Actor/GFCLocalPlayer.h"
 

@@ -4,7 +4,7 @@
 
 #include "GFCGameState.h"
 #include "GFCPawn.h"
-#include "GFCPlayerController.h"
+#include "Actor/GFCPlayerController.h"
 #include "GFCPlayerState.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GFCGameMode)

@@ -100,6 +100,9 @@ UCLASS()
 class GFCORE_API UGameplayMessageSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
+
+	friend class UAsyncAction_ListenForGameplayMessage;
+
 public:
 	UGameplayMessageSubsystem() {}
 

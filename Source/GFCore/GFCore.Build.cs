@@ -13,7 +13,6 @@ public class GFCore : ModuleRules
             {
                 ModuleDirectory,
                 ModuleDirectory + "/GFCore",
-                ModuleDirectory + "/GFCore/Actor",
             }
         );
 
@@ -26,6 +25,8 @@ public class GFCore : ModuleRules
                 "Engine",
                 "ModularGameplay",
                 "GameplayTags",
+                "GameFeatures",
+                "DeveloperSettings",
             }
         );
 
