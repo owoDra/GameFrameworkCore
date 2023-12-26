@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Components/ActorComponent.h"
+#include "Components/GameFrameworkComponent.h"
 #include "Components/GameFrameworkInitStateInterface.h"
 
 #include "Delegates/Delegate.h"
@@ -19,7 +19,7 @@
  */
 UCLASS(meta = (BlueprintSpawnableComponent))
 class GFCORE_API UInitStateComponent
-	: public UActorComponent
+	: public UGameFrameworkComponent
 	, public IGameFrameworkInitStateInterface
 {
 	GENERATED_BODY()
