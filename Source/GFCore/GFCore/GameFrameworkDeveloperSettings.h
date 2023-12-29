@@ -10,7 +10,7 @@
 /**
  * Settings for a Game framework.
  */
-UCLASS(config=Game, defaultconfig, meta=(DisplayName="Game Framework Settings"))
+UCLASS(Config = "Game", Defaultconfig, meta = (DisplayName = "Game Framework Core"))
 class UGameFrameworkDeveloperSettings : public UDeveloperSettings
 {
 public:

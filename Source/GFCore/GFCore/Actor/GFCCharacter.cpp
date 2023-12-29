@@ -7,6 +7,14 @@
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GFCCharacter)
 
 
+AGFCCharacter::AGFCCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+}
+
+
 void AGFCCharacter::PreInitializeComponents()
 {
 	Super::PreInitializeComponents();

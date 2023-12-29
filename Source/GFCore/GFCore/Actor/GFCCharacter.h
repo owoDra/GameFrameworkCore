@@ -14,6 +14,8 @@ UCLASS(Blueprintable)
 class GFCORE_API AGFCCharacter : public ACharacter
 {
 	GENERATED_BODY()
+public:
+	AGFCCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 public:
 	virtual void PreInitializeComponents() override;

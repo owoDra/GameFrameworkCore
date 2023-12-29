@@ -7,5 +7,6 @@
 
 UGameFrameworkDeveloperSettings::UGameFrameworkDeveloperSettings()
 {
-	CategoryName = TEXT("Game Framework Core");
+	CategoryName = TEXT("Game XXX Core");
+	SectionName = TEXT("Game Framework Core");
 }
