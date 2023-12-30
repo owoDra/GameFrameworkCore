@@ -24,7 +24,7 @@ public:
 	//
 	// List of Observer classes to be created in GameFeaturePolicy
 	//
-	UPROPERTY(Config, EditAnywhere, Category = "Game Features", meta = (MustImplement = "GameFeatureStateChangeObserver"))
+	UPROPERTY(Config, EditAnywhere, Category = "Game Features", meta = (MustImplement = "/Script/GameFeatures.GameFeatureStateChangeObserver"))
 	TArray<FSoftClassPath> Observers;
 
 };
