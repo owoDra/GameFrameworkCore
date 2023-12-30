@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #include "GFCGameState.h"
 
@@ -9,6 +9,12 @@
 
 
 #pragma region GameStateBase
+
+AGFCGameStateBase::AGFCGameStateBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+}
+
 
 void AGFCGameStateBase::PreInitializeComponents()
 {
@@ -35,6 +41,12 @@ void AGFCGameStateBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 
 #pragma region GameState
+
+AGFCGameState::AGFCGameState(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+}
+
 
 void AGFCGameState::PreInitializeComponents()
 {

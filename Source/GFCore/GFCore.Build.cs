@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 using UnrealBuildTool;
 
@@ -35,6 +35,7 @@ public class GFCore : ModuleRules
             new string[]
             {
                 "NetCore",
+                "PhysicsCore",
                 "AIModule",
             }
         );

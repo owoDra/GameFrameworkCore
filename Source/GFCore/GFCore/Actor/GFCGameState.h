@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #pragma once
 
@@ -14,6 +14,8 @@ UCLASS(Blueprintable)
 class GFCORE_API AGFCGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
+public:
+	AGFCGameStateBase(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 public:
 	virtual void PreInitializeComponents() override;
@@ -30,6 +32,8 @@ UCLASS(Blueprintable)
 class GFCORE_API AGFCGameState : public AGameState
 {
 	GENERATED_BODY()
+public:
+	AGFCGameState(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 public:
 	virtual void PreInitializeComponents() override;
