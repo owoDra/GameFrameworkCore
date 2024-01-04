@@ -11,6 +11,8 @@
 
 const FName UInitStateComponent::NAME_ActorFeatureName("InitState");
 
+const FName  UInitStateComponent::NAME_InitStateComplete("InitStateComplete");
+
 UInitStateComponent::UInitStateComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -45,7 +47,7 @@ void UInitStateComponent::BeginPlay()
 
 	// Change the initialization state of this component to [Spawned]
 
-	ensure(TryToChangeInitState(TAG_InitState_Spawned));
+	ensureMsgf(TryToChangeInitState(TAG_InitState_Spawned), TEXT("[%s] on [%s]."), *GetNameSafe(this), *GetNameSafe(GetOwner()));
 
 	// Check if initialization process can continue
 
@@ -143,6 +145,8 @@ void UInitStateComponent::HandleChangeInitState(UGameFrameworkComponentManager* 
 	else if (CurrentState == TAG_InitState_DataInitialized && DesiredState == TAG_InitState_GameplayReady)
 	{
 		OnGameReadyDelegate.Broadcast();
+
+		UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(GetOwner(), NAME_InitStateComplete);
 
 		HandleChangeInitStateToGameplayReady(Manager);
 	}

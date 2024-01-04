@@ -31,6 +31,8 @@ public:
 	//
 	static const FName NAME_ActorFeatureName;
 
+	static const FName NAME_InitStateComplete;
+
 protected:
 	virtual void OnRegister() override;
 	virtual void BeginPlay() override;

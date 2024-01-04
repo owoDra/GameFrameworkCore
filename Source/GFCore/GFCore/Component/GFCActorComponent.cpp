@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #include "GFCActorComponent.h"
 
@@ -24,8 +24,8 @@ void UGFCActorComponent::OnRegister()
 	// No more than two of these components should be added to a Actor.
 
 	TArray<UActorComponent*> Components;
-	GetOwner()->GetComponents(StaticClass(), Components);
-	ensureAlwaysMsgf((Components.Num() == 1), TEXT("Only one [%s] should exist on [%s]."), *GetNameSafe(StaticClass()), *GetNameSafe(GetOwner()));
+	GetOwner()->GetComponents(GetClass(), Components);
+	ensureAlwaysMsgf((Components.Num() == 1), TEXT("Only one [%s] should exist on [%s]."), *GetNameSafe(GetClass()), *GetNameSafe(GetOwner()));
 
 	// Register this component in the GameFrameworkComponentManager.
 
@@ -43,7 +43,7 @@ void UGFCActorComponent::BeginPlay()
 
 	// Change the initialization state of this component to [Spawned]
 
-	ensure(TryToChangeInitState(TAG_InitState_Spawned));
+	ensureMsgf(TryToChangeInitState(TAG_InitState_Spawned), TEXT("[%s] on [%s]."), *GetNameSafe(this), *GetNameSafe(GetOwner()));
 
 	// Check if initialization process can continue
 

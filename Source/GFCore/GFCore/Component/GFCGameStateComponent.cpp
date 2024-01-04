@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #include "GFCGameStateComponent.h"
 
@@ -24,13 +24,13 @@ void UGFCGameStateComponent::OnRegister()
 	// This component can only be added to classes derived from AGameStateBase
 
 	const auto* GameState{ GetGameState<AGameStateBase>() };
-	ensureAlwaysMsgf((GameState != nullptr), TEXT("[%s] on [%s] can only be added to GameState actors."), *GetNameSafe(StaticClass()), *GetNameSafe(GetOwner()));
+	ensureAlwaysMsgf((GameState != nullptr), TEXT("[%s] on [%s] can only be added to GameState actors."), *GetNameSafe(GetClass()), *GetNameSafe(GetOwner()));
 
 	// No more than two of these components should be added to a Actor.
 
 	TArray<UActorComponent*> Components;
-	GetOwner()->GetComponents(StaticClass(), Components);
-	ensureAlwaysMsgf((Components.Num() == 1), TEXT("Only one [%s] should exist on [%s]."), *GetNameSafe(StaticClass()), *GetNameSafe(GetOwner()));
+	GetOwner()->GetComponents(GetClass(), Components);
+	ensureAlwaysMsgf((Components.Num() == 1), TEXT("Only one [%s] should exist on [%s]."), *GetNameSafe(GetClass()), *GetNameSafe(GetOwner()));
 
 	// Register this component in the GameFrameworkComponentManager.
 
@@ -48,7 +48,7 @@ void UGFCGameStateComponent::BeginPlay()
 
 	// Change the initialization state of this component to [Spawned]
 
-	ensure(TryToChangeInitState(TAG_InitState_Spawned));
+	ensureMsgf(TryToChangeInitState(TAG_InitState_Spawned), TEXT("[%s] on [%s]."), *GetNameSafe(this), *GetNameSafe(GetOwner()));
 
 	// Check if initialization process can continue
 
