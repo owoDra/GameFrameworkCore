@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #pragma once
 
@@ -56,7 +56,7 @@ public:
 	 * @param PayloadType		The kind of message structure to use (this must match the same type that the sender is broadcasting)
 	 * @param MatchType			The rule used for matching the channel with broadcasted messages
 	 */
-	UFUNCTION(BlueprintCallable, Category = Messaging, meta = (WorldContext = "WorldContextObject", BlueprintInternalUseOnly = "true"))
+	UFUNCTION(BlueprintCallable, Category = Messaging, meta = (WorldContext = "WorldContextObject", BlueprintInternalUseOnly = "true", GameplayTagFilter = "Message"))
 	static UAsyncAction_ListenForGameplayMessage* ListenForGameplayMessages(UObject* WorldContextObject, FGameplayTag Channel, UScriptStruct* PayloadType, EGameplayMessageMatch MatchType = EGameplayMessageMatch::ExactMatch);
 
 	/**
