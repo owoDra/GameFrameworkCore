@@ -1,4 +1,4 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #pragma once
 
@@ -49,7 +49,13 @@ struct GFCORE_API FGameplayTagStackContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()
 public:
-	FGameplayTagStackContainer() {}
+	FGameplayTagStackContainer() 
+		: OwnerObject(nullptr)
+	{}
+
+	FGameplayTagStackContainer(UObject* InOwnerObject)
+		: OwnerObject(InOwnerObject)
+	{}
 
 private:
 	//
@@ -61,7 +67,14 @@ private:
 	//
 	// Accelerated list of tag stacks for queries
 	//
+	UPROPERTY(NotReplicated)
 	TMap<FGameplayTag, int32> TagToCountMap;
+
+	//
+	// Owner of this container.
+	//
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UObject> OwnerObject;
 
 public:
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
@@ -93,6 +106,10 @@ public:
 	 * Returns true if there is at least one stack of the specified tag
 	 */
 	bool ContainsTag(FGameplayTag Tag) const { return TagToCountMap.Contains(Tag); }
+
+
+protected:
+	void BroadcastTagStackChangeMessage(FGameplayTag Tag = FGameplayTag::EmptyTag, int32 CurrentStack = 0);
 
 };
 

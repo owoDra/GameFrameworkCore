@@ -1,7 +1,9 @@
-// Copyright (C) 2023 owoDra
+﻿// Copyright (C) 2023 owoDra
 
 #include "GameplayTagStack.h"
 
+#include "Message/GameplayMessageSubsystem.h"
+#include "GameplayTag/GameplayTagStackMessageTypes.h"
 #include "GFCoreLogs.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GameplayTagStack)
@@ -32,6 +34,8 @@ void FGameplayTagStackContainer::PreReplicatedRemove(const TArrayView<int32> Rem
 		const auto Tag{ Stacks[Index].Tag };
 
 		TagToCountMap.Remove(Tag);
+
+		BroadcastTagStackChangeMessage(Tag, 0);
 	}
 }
 
@@ -42,6 +46,8 @@ void FGameplayTagStackContainer::PostReplicatedAdd(const TArrayView<int32> Added
 		const auto& Stack{ Stacks[Index] };
 
 		TagToCountMap.Add(Stack.Tag, Stack.StackCount);
+
+		BroadcastTagStackChangeMessage(Stack.Tag, Stack.StackCount);
 	}
 }
 
@@ -52,6 +58,8 @@ void FGameplayTagStackContainer::PostReplicatedChange(const TArrayView<int32> Ch
 		const auto& Stack{ Stacks[Index] };
 
 		TagToCountMap[Stack.Tag] = Stack.StackCount;
+
+		BroadcastTagStackChangeMessage(Stack.Tag, Stack.StackCount);
 	}
 }
 
@@ -74,12 +82,18 @@ void FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
 				const auto NewCount{ Stack.StackCount + StackCount };
 				Stack.StackCount = NewCount;
 				TagToCountMap[Tag] = NewCount;
+
+				BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
+
 				MarkItemDirty(Stack);
 				return;
 			}
 		}
 
 		auto& NewStack{ Stacks.Emplace_GetRef(Tag, StackCount) };
+
+		BroadcastTagStackChangeMessage(Tag, StackCount);
+
 		MarkItemDirty(NewStack);
 		TagToCountMap.Add(Tag, StackCount);
 	}
@@ -105,6 +119,9 @@ void FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
 				{
 					It.RemoveCurrent();
 					TagToCountMap.Remove(Tag);
+
+					BroadcastTagStackChangeMessage(Stack.Tag, 0);
+
 					MarkArrayDirty();
 				}
 				else
@@ -112,12 +129,27 @@ void FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
 					const auto NewCount{ Stack.StackCount - StackCount };
 					Stack.StackCount = NewCount;
 					TagToCountMap[Tag] = NewCount;
+
+					BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
+
 					MarkItemDirty(Stack);
 				}
 				return;
 			}
 		}
 	}
+}
+
+
+void FGameplayTagStackContainer::BroadcastTagStackChangeMessage(FGameplayTag Tag, int32 CurrentStack)
+{
+	FGameplayTagStackCountChangeMessage Message;
+	Message.OwningObject = OwnerObject;
+	Message.Tag = Tag;
+	Message.Count = CurrentStack;
+
+	auto& MessageSystem{ UGameplayMessageSubsystem::Get(OwnerObject->GetWorld()) };
+	MessageSystem.BroadcastMessage(TAG_Message_TagStackCountChange, Message);
 }
 
 #pragma endregion
