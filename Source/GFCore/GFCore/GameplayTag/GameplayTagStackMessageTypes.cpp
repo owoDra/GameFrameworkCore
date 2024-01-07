@@ -6,3 +6,4 @@
 
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_Message_TagStackCountChange, "Message.Ability.TagStackCountChange");
+UE_DEFINE_GAMEPLAY_TAG(TAG_Stat, "Stat");
