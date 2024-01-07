@@ -24,6 +24,15 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 virtual const FGameplayTagStackContainer* GetStatTagsConst() const { return nullptr; }
 
  public:
+	 /**
+	 * Set a Tag to Equipment that can be handled as statistics
+	 * 
+	 * Note:
+	 *	Authority is required
+	 */
+	 UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
+	 virtual int32 SetStatTagStack(FGameplayTag Tag, int32 StackCount);
+
 	/**
 	 * Add a Tag to Equipment that can be handled as statistics
 	 *
@@ -34,7 +43,7 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 *	Authority is required
 	 */
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
-	virtual void AddStatTagStack(FGameplayTag Tag, int32 StackCount);
+	virtual int32 AddStatTagStack(FGameplayTag Tag, int32 StackCount);
 
 	/**
 	 * Delete Tags that can be handled as statistics in Equipment
@@ -46,7 +55,7 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 *	Authority is required
 	 */
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
-	virtual void RemoveStatTagStack(FGameplayTag Tag, int32 StackCount);
+	virtual int32 RemoveStatTagStack(FGameplayTag Tag, int32 StackCount);
 
 	/**
 	 * Returns the number of Tags that can be handled as statistics in Equipment.

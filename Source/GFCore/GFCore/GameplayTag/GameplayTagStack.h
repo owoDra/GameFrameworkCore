@@ -88,14 +88,19 @@ public:
 
 public:
 	/**
+	 * Set a specified number of stacks to the tag
+	 */
+	int32 SetStack(FGameplayTag Tag, int32 StackCount);
+
+	/**
 	 * Adds a specified number of stacks to the tag (does nothing if StackCount is below 1)
 	 */
-	void AddStack(FGameplayTag Tag, int32 StackCount);
+	int32 AddStack(FGameplayTag Tag, int32 StackCount);
 
 	/**
 	 * Removes a specified number of stacks from the tag (does nothing if StackCount is below 1)
 	 */
-	void RemoveStack(FGameplayTag Tag, int32 StackCount);
+	int32 RemoveStack(FGameplayTag Tag, int32 StackCount);
 
 	/**
 	 * Returns the stack count of the specified tag (or 0 if the tag is not present)

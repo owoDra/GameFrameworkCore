@@ -64,13 +64,73 @@ void FGameplayTagStackContainer::PostReplicatedChange(const TArrayView<int32> Ch
 }
 
 
-void FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
+int32 FGameplayTagStackContainer::SetStack(FGameplayTag Tag, int32 StackCount)
+{
+	if (!Tag.IsValid())
+	{
+		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to SetStack"));
+
+		return 0;
+	}
+
+	// Find tags
+
+	for (auto It{ Stacks.CreateIterator() }; It; ++It)
+	{
+		auto& Stack{ *It };
+
+		if (Stack.Tag == Tag)
+		{
+			// Set Tag count
+
+			if (StackCount > 0)
+			{
+				Stack.StackCount = StackCount;
+				TagToCountMap[Tag] = StackCount;
+
+				BroadcastTagStackChangeMessage(Stack.Tag, StackCount);
+
+				MarkItemDirty(Stack);
+			}
+
+			// Remove Tags
+
+			else
+			{
+				It.RemoveCurrent();
+				TagToCountMap.Remove(Tag);
+
+				BroadcastTagStackChangeMessage(Stack.Tag, 0);
+
+				MarkArrayDirty();
+			}
+
+			return StackCount;
+		}
+	}
+
+	// Add Tags
+
+	if (StackCount > 0)
+	{
+		auto& NewStack{ Stacks.Emplace_GetRef(Tag, StackCount) };
+
+		BroadcastTagStackChangeMessage(Tag, StackCount);
+
+		MarkItemDirty(NewStack);
+		TagToCountMap.Add(Tag, StackCount);
+	}
+
+	return StackCount;
+}
+
+int32 FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
 {
 	if (!Tag.IsValid())
 	{
 		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to AddStack"));
 
-		return;
+		return 0;
 	}
 
 	if (StackCount > 0)
@@ -86,7 +146,8 @@ void FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
 				BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
 
 				MarkItemDirty(Stack);
-				return;
+
+				return NewCount;
 			}
 		}
 
@@ -96,16 +157,20 @@ void FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
 
 		MarkItemDirty(NewStack);
 		TagToCountMap.Add(Tag, StackCount);
+
+		return StackCount;
 	}
+
+	return GetStackCount(Tag);
 }
 
-void FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
+int32 FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
 {
 	if (!Tag.IsValid())
 	{
 		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to RemoveStack"));
 
-		return;
+		return 0;
 	}
 
 	if (StackCount > 0)
@@ -123,6 +188,8 @@ void FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
 					BroadcastTagStackChangeMessage(Stack.Tag, 0);
 
 					MarkArrayDirty();
+
+					return 0;
 				}
 				else
 				{
@@ -133,11 +200,14 @@ void FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount)
 					BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
 
 					MarkItemDirty(Stack);
+
+					return NewCount;
 				}
-				return;
 			}
 		}
 	}
+
+	return GetStackCount(Tag);
 }
 
 
