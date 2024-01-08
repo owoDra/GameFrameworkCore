@@ -43,26 +43,3 @@ public:
 	FString ToString() const;
 
 };
-
-
-/**
- * Represents a general message of the form Duration (Cooltime, Interaction).
- */
-USTRUCT(BlueprintType)
-struct GFCORE_API FGenericDurationMessage
-{
-	GENERATED_BODY()
-public:
-	FGenericDurationMessage() {}
-
-public:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<UObject> Instigator{ nullptr };
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float Duration{ 1.0f };
-
-public:
-	FString ToString() const;
-
-};

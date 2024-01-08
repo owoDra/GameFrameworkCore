@@ -15,15 +15,3 @@ FString FGenericVerbMessage::ToString() const
 	
 	return HumanReadableMessage;
 }
-
-
-//////////////////////////////////////////////////////////////////////
-// FGenericDurationMessage
-
-FString FGenericDurationMessage::ToString() const
-{
-	FString HumanReadableMessage;
-	FGenericDurationMessage::StaticStruct()->ExportText(/*out*/ HumanReadableMessage, this, /*Defaults=*/ nullptr, /*OwnerObject=*/ nullptr, PPF_None, /*ExportRootScope=*/ nullptr);
-
-	return HumanReadableMessage;
-}
