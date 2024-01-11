@@ -57,7 +57,7 @@ void FGameplayTagStackContainer::PostReplicatedChange(const TArrayView<int32> Ch
 	{
 		const auto& Stack{ Stacks[Index] };
 
-		TagToCountMap[Stack.Tag] = Stack.StackCount;
+		TagToCountMap.Emplace(Stack.Tag, Stack.StackCount);
 
 		BroadcastTagStackChangeMessage(Stack.Tag, Stack.StackCount);
 	}
@@ -86,7 +86,7 @@ int32 FGameplayTagStackContainer::SetStack(FGameplayTag Tag, int32 StackCount)
 			if (StackCount > 0)
 			{
 				Stack.StackCount = StackCount;
-				TagToCountMap[Tag] = StackCount;
+				TagToCountMap.Emplace(Tag, StackCount);
 
 				BroadcastTagStackChangeMessage(Stack.Tag, StackCount);
 
@@ -141,7 +141,7 @@ int32 FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount)
 			{
 				const auto NewCount{ Stack.StackCount + StackCount };
 				Stack.StackCount = NewCount;
-				TagToCountMap[Tag] = NewCount;
+				TagToCountMap.Emplace(Stack.Tag, NewCount);
 
 				BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
 
@@ -195,7 +195,7 @@ int32 FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount
 				{
 					const auto NewCount{ Stack.StackCount - StackCount };
 					Stack.StackCount = NewCount;
-					TagToCountMap[Tag] = NewCount;
+					TagToCountMap.Emplace(Tag, NewCount);
 
 					BroadcastTagStackChangeMessage(Stack.Tag, NewCount);
 
