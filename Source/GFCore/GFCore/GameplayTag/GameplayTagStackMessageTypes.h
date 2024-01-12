@@ -32,4 +32,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int32 Count{ 0 };
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int32 MaxCount{ -1 };
+
 };

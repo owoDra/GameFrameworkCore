@@ -25,13 +25,22 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 
  public:
 	 /**
-	 * Set a Tag to Equipment that can be handled as statistics
-	 * 
-	 * Note:
-	 *	Authority is required
-	 */
+	  * Set max Tags to Equipment that can be handled as statistics
+	  *
+	  * Note:
+	  *	 Authority is required
+	  */
 	 UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
-	 virtual int32 SetStatTagStack(FGameplayTag Tag, int32 StackCount);
+	 virtual void SetMaxStatTagStack(FGameplayTag Tag, int32 StackCount, bool bCanAddNewTag = true);
+
+	 /**
+	  * Set a Tag to Equipment that can be handled as statistics
+	  * 
+	  * Note:
+	  *	 Authority is required
+	  */
+	 UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
+	 virtual int32 SetStatTagStack(FGameplayTag Tag, int32 StackCount, bool bCanAddNewTag = true, bool bRemoveTagAtZero = false);
 
 	/**
 	 * Add a Tag to Equipment that can be handled as statistics
@@ -43,7 +52,7 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 *	Authority is required
 	 */
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
-	virtual int32 AddStatTagStack(FGameplayTag Tag, int32 StackCount);
+	virtual int32 AddStatTagStack(FGameplayTag Tag, int32 StackCount, bool bCanAddNewTag = true);
 
 	/**
 	 * Delete Tags that can be handled as statistics in Equipment
@@ -55,7 +64,7 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 *	Authority is required
 	 */
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
-	virtual int32 RemoveStatTagStack(FGameplayTag Tag, int32 StackCount);
+	virtual int32 RemoveStatTagStack(FGameplayTag Tag, int32 StackCount, bool bRemoveTagAtZero = false);
 
 	/**
 	 * Returns the number of Tags that can be handled as statistics in Equipment.
@@ -65,6 +74,15 @@ UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
 	virtual int32 GetStatTagStackCount(FGameplayTag Tag) const;
+
+	/**
+	 * Returns the number of max Tags that can be handled as statistics in Equipment.
+	 *
+	 * Tips:
+	 *	Returns -1 if not present.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Stat", meta = (GameplayTagFilter = "Stat"))
+	virtual int32 GetMaxStatTagStackCount(FGameplayTag Tag) const;
 
 	/**
 	 * Returns whether or not a Tag that can be handled as statistics exists in Equipment.
