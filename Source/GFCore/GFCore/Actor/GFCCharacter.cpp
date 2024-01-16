@@ -1,4 +1,4 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 #include "GFCCharacter.h"
 
@@ -36,3 +36,22 @@ void AGFCCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+
+TArray<USkeletalMeshComponent*> AGFCCharacter::GetMeshes_Implementation() const
+{
+	TArray<USkeletalMeshComponent*> Result;
+
+	Result.Emplace(GetMesh());
+
+	return Result;
+}
+
+USkeletalMeshComponent* AGFCCharacter::GetMainMesh_Implementation() const
+{
+	return GetMesh();
+}
+
+USkeletalMeshComponent* AGFCCharacter::GetMeshByTag_Implementation(const FGameplayTag& Tag) const
+{
+	return GetMesh();
+}
