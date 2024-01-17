@@ -31,6 +31,6 @@ public:
 public:
 	TArray<USkeletalMeshComponent*> GetMeshes_Implementation() const override;
 	USkeletalMeshComponent* GetMainMesh_Implementation() const override;
-	USkeletalMeshComponent* GetMeshByTag_Implementation(const FGameplayTag& Tag) const override;
+	USkeletalMeshComponent* GetMeshByTag_Implementation(FGameplayTag Tag) const override;
 
 };

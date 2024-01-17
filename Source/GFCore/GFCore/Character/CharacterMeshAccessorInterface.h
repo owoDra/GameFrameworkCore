@@ -46,7 +46,7 @@ public:
 	/**
 	 * Returns a mesh for a specific tag
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Mesh")
-	USkeletalMeshComponent* GetMeshByTag(const FGameplayTag& Tag) const;
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Mesh", meta = (GameplayTagFilter = "MeshType"))
+	USkeletalMeshComponent* GetMeshByTag(FGameplayTag Tag) const;
 
 };

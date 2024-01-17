@@ -51,7 +51,7 @@ USkeletalMeshComponent* AGFCCharacter::GetMainMesh_Implementation() const
 	return GetMesh();
 }
 
-USkeletalMeshComponent* AGFCCharacter::GetMeshByTag_Implementation(const FGameplayTag& Tag) const
+USkeletalMeshComponent* AGFCCharacter::GetMeshByTag_Implementation(FGameplayTag Tag) const
 {
 	return GetMesh();
 }
