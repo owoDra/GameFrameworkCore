@@ -1,4 +1,4 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 #include "Actor/GFCPlayerController.h"
 
@@ -9,6 +9,8 @@
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GFCPlayerController)
 
+
+const FName AGFCPlayerController::NAME_PlayerStateReady("PlayerStateReady");
 
 AGFCPlayerController::AGFCPlayerController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -28,6 +30,27 @@ void AGFCPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
 
 	Super::EndPlay(EndPlayReason);
+}
+
+
+void AGFCPlayerController::InitPlayerState()
+{
+	Super::InitPlayerState();
+
+	if (GetNetMode() != NM_Client)
+	{
+		UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, AGFCPlayerController::NAME_PlayerStateReady);
+	}
+}
+
+void AGFCPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (GetNetMode() == NM_Client)
+	{
+		UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, AGFCPlayerController::NAME_PlayerStateReady);
+	}
 }
 
 
@@ -101,12 +124,4 @@ void AGFCPlayerController::PlayerTick(float DeltaTime)
 	{
 		Component->PlayerTick(DeltaTime);
 	}
-}
-
-
-void AGFCPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
-{
-	OnPostProcessInput.Broadcast(DeltaTime, bGamePaused);
-
-	Super::PostProcessInput(DeltaTime, bGamePaused);
 }

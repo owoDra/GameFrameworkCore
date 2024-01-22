@@ -1,4 +1,4 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 #pragma once
 
@@ -17,9 +17,17 @@ class GFCORE_API AGFCPlayerController : public APlayerController
 public:
 	AGFCPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	//
+	// Name of the event that signals that PlayerState is ready.
+	//
+	static const FName NAME_PlayerStateReady;
+
 public:
 	virtual void PreInitializeComponents() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void InitPlayerState() override;
+	virtual void OnRep_PlayerState() override;
 
 public:	
 	virtual void ReceivedPlayer() override;
@@ -27,15 +35,5 @@ public:
 	virtual void OnPossess(class APawn* APawn) override;
 	virtual void OnUnPossess() override;
 	virtual void PlayerTick(float DeltaTime) override;
-
-public:
-	/**
-	 * Delegate to notify that PostProcessInput has been executed in PlayerController
-	 */
-	DECLARE_EVENT_TwoParams(AGFCPlayerController, FPostProcessInputDelegate, const float /*DeltaTime*/, const bool /*bGamePaused*/);
-	FPostProcessInputDelegate OnPostProcessInput;
-
-protected:
-	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
 
 };

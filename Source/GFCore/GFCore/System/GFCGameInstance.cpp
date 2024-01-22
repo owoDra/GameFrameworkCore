@@ -47,7 +47,7 @@ int32 UGFCGameInstance::AddLocalPlayer(ULocalPlayer* NewPlayer, FPlatformUserId 
 	{
 		if (!PrimaryPlayer.IsValid())
 		{
-			UE_LOG(LogGFC, Log, TEXT("AddLocalPlayer: Set %s to Primary Player"), *NewPlayer->GetName());
+			UE_LOG(LogGameCore_Framework, Log, TEXT("AddLocalPlayer: Set %s to Primary Player"), *NewPlayer->GetName());
 
 			PrimaryPlayer = NewPlayer;
 		}
@@ -66,7 +66,7 @@ bool UGFCGameInstance::RemoveLocalPlayer(ULocalPlayer* ExistingPlayer)
 
 		PrimaryPlayer.Reset();
 
-		UE_LOG(LogGFC, Log, TEXT("RemoveLocalPlayer: Unsetting Primary Player from %s"), *ExistingPlayer->GetName());
+		UE_LOG(LogGameCore_Framework, Log, TEXT("RemoveLocalPlayer: Unsetting Primary Player from %s"), *ExistingPlayer->GetName());
 	}
 	
 	OnLocalPlayerRemoved.Broadcast(ExistingPlayer);

@@ -55,7 +55,7 @@ void UGameplayMessageSubsystem::UnregisterListener(FGameplayMessageListenerHandl
 	}
 	else
 	{
-		UE_LOG(LogGFC, Warning, TEXT("Trying to unregister an invalid Handle."));
+		UE_LOG(LogGameCore_Framework, Warning, TEXT("Trying to unregister an invalid Handle."));
 	}
 }
 
@@ -143,7 +143,7 @@ void UGameplayMessageSubsystem::BroadcastMessageInternal(FGameplayTag Channel, c
 				{
 					if (Listener.bHadValidType && !Listener.ListenerStructType.IsValid())
 					{
-						UE_LOG(LogGFC, Warning, TEXT("Listener struct type has gone invalid on Channel %s. Removing listener from list"), *Channel.ToString());
+						UE_LOG(LogGameCore_Framework, Warning, TEXT("Listener struct type has gone invalid on Channel %s. Removing listener from list"), *Channel.ToString());
 						
 						UnregisterListenerInternal(Channel, Listener.HandleID);
 
@@ -158,7 +158,7 @@ void UGameplayMessageSubsystem::BroadcastMessageInternal(FGameplayTag Channel, c
 					}
 					else
 					{
-						UE_LOG(LogGFC, Error, TEXT("Struct type mismatch on channel %s (broadcast type %s, listener at %s was expecting type %s)"),
+						UE_LOG(LogGameCore_Framework, Error, TEXT("Struct type mismatch on channel %s (broadcast type %s, listener at %s was expecting type %s)"),
 							*Channel.ToString(),
 							*StructType->GetPathName(),
 							*Tag.ToString(),

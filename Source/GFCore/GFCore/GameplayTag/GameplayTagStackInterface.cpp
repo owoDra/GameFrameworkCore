@@ -15,7 +15,7 @@ void IGameplayTagStackInterface::SetMaxStatTagStack(FGameplayTag Tag, int32 Stac
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::SetMaxStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::SetMaxStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
 	}
 }
 
@@ -27,7 +27,7 @@ int32 IGameplayTagStackInterface::SetStatTagStack(FGameplayTag Tag, int32 StackC
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::SetStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::SetStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
 	}
 
 	return 0;
@@ -41,7 +41,7 @@ int32 IGameplayTagStackInterface::AddStatTagStack(FGameplayTag Tag, int32 StackC
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::AddStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::AddStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
 	}
 
 	return 0;
@@ -55,7 +55,7 @@ int32 IGameplayTagStackInterface::RemoveStatTagStack(FGameplayTag Tag, int32 Sta
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::RemoveStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::RemoveStatTagStack: StatTag is invalid, GetStatTags() not overridden or Container is invalid."));
 	}
 
 	return 0;
@@ -70,7 +70,7 @@ int32 IGameplayTagStackInterface::GetStatTagStackCount(FGameplayTag Tag) const
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::GetStatTagStackCount: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::GetStatTagStackCount: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
 	}
 
 	return 0;
@@ -84,7 +84,7 @@ int32 IGameplayTagStackInterface::GetMaxStatTagStackCount(FGameplayTag Tag) cons
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::GetMaxStatTagStackCount: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::GetMaxStatTagStackCount: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
 	}
 
 	return 0;
@@ -98,7 +98,7 @@ bool IGameplayTagStackInterface::HasStatTag(FGameplayTag Tag) const
 	}
 	else
 	{
-		UE_LOG(LogGFC, Error, TEXT("IGameplayTagStackInterface::HasStatTag: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
+		UE_LOG(LogGameCore_Framework, Error, TEXT("IGameplayTagStackInterface::HasStatTag: StatTag is invalid, GetStatTagsConst() not overridden or Container is invalid."));
 	}
 
 	return false;

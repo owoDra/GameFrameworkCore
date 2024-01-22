@@ -121,7 +121,7 @@ void FGameplayTagStackContainer::SetMaxStack(FGameplayTag Tag, int32 MaxStackCou
 {
 	if (!Tag.IsValid())
 	{
-		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to AddMaxStack"));
+		UE_LOG(LogGameCore_Framework, Warning, TEXT("An invalid tag was passed to AddMaxStack"));
 
 		return;
 	}
@@ -160,7 +160,7 @@ int32 FGameplayTagStackContainer::SetStack(FGameplayTag Tag, int32 StackCount, b
 {
 	if (!Tag.IsValid())
 	{
-		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to SetStack"));
+		UE_LOG(LogGameCore_Framework, Warning, TEXT("An invalid tag was passed to SetStack"));
 
 		return 0;
 	}
@@ -234,7 +234,7 @@ int32 FGameplayTagStackContainer::AddStack(FGameplayTag Tag, int32 StackCount, b
 {
 	if (!Tag.IsValid())
 	{
-		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to AddStack"));
+		UE_LOG(LogGameCore_Framework, Warning, TEXT("An invalid tag was passed to AddStack"));
 
 		return 0;
 	}
@@ -278,7 +278,7 @@ int32 FGameplayTagStackContainer::RemoveStack(FGameplayTag Tag, int32 StackCount
 {
 	if (!Tag.IsValid())
 	{
-		UE_LOG(LogGFC, Warning, TEXT("An invalid tag was passed to RemoveStack"));
+		UE_LOG(LogGameCore_Framework, Warning, TEXT("An invalid tag was passed to RemoveStack"));
 
 		return 0;
 	}
