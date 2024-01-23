@@ -2,10 +2,10 @@
 
 #include "GFCGameMode.h"
 
-#include "GFCGameState.h"
-#include "GFCPawn.h"
-#include "Actor/GFCPlayerController.h"
-#include "GFCPlayerState.h"
+#include "GameMode/GFCGameState.h"
+#include "Character/GFCPawn.h"
+#include "Player/GFCPlayerController.h"
+#include "Player/GFCPlayerState.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GFCGameMode)
 

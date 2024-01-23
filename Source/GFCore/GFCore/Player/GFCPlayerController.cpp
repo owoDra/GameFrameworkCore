@@ -1,8 +1,8 @@
 ﻿// Copyright (C) 2024 owoDra
 
-#include "Actor/GFCPlayerController.h"
+#include "GFCPlayerController.h"
 
-#include "Actor/GFCLocalPlayer.h"
+#include "Player/GFCLocalPlayer.h"
 
 #include "Components/ControllerComponent.h"
 #include "Components/GameFrameworkComponentManager.h"

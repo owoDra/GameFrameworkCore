@@ -2,7 +2,7 @@
 
 #include "K2Node_AsyncAction_ListenForGameplayMessages.h"
 
-#include "Action/AsyncAction_ListenForGameplayMessage.h"
+#include "Message/Action/AsyncAction_ListenForGameplayMessage.h"
 
 #include "BlueprintActionDatabaseRegistrar.h"
 #include "BlueprintFunctionNodeSpawner.h"
