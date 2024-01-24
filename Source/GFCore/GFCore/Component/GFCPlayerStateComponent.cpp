@@ -116,7 +116,7 @@ void UGFCPlayerStateComponent::HandleChangeInitState(UGameFrameworkComponentMana
 {
 	check(Manager);
 
-	UE_LOG(LogGameCore_Framework, Log, TEXT("[%s] %s: InitState Reached: %s"),
+	UE_LOG(LogGameCore_InitState, Log, TEXT("[%s] %s: InitState Reached: %s"),
 		GetOwner()->HasAuthority() ? TEXT("SERVER") : TEXT("CLIENT"),
 		*GetNameSafe(this),
 		*DesiredState.GetTagName().ToString());
