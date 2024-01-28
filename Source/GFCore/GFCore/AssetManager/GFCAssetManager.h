@@ -61,6 +61,12 @@ public:
 	static AssetType* GetAsset(const TSoftObjectPtr<AssetType>& AssetPointer, bool bKeepInMemory = true);
 
 	/**
+	 * Returns the asset referenced by a FPrimaryAssetId.  This will synchronously load the asset if it's not already loaded.
+	 */
+	template<typename AssetType>
+	static AssetType* GetAsset(const FPrimaryAssetId& AssetId, bool bKeepInMemory = true);
+
+	/**
 	 * Returns the subclass referenced by a TSoftClassPtr.  This will synchronously load the asset if it's not already loaded.
 	 */
 	template<typename AssetType>
@@ -110,11 +116,42 @@ AssetType* UGFCAssetManager::GetAsset(const TSoftObjectPtr<AssetType>& AssetPoin
 		{
 			Get().AddLoadedAsset(Cast<UObject>(LoadedAsset));
 		}
+
+		return LoadedAsset;
 	}
 
 	return nullptr;
 }
 
+template<typename AssetType>
+inline AssetType* UGFCAssetManager::GetAsset(const FPrimaryAssetId& AssetId, bool bKeepInMemory)
+{
+	auto& AssetManager{ Get() };
+	auto AssetPath{ AssetManager.GetPrimaryAssetPath(AssetId) };
+
+	if (AssetPath.IsValid())
+	{
+		auto* LoadedAsset{ Cast<AssetType>(AssetPath.ResolveObject()) };
+
+		if (!LoadedAsset)
+		{
+			LoadedAsset = Cast<AssetType>(SynchronousLoadAsset(AssetPath));
+
+			ensureAlwaysMsgf(LoadedAsset, TEXT("Failed to load asset [%s]"), *AssetId.ToString());
+		}
+		
+		// Added to loaded asset list.
+
+		if (LoadedAsset && bKeepInMemory)
+		{
+			AssetManager.AddLoadedAsset(Cast<UObject>(LoadedAsset));
+		}
+
+		return LoadedAsset;
+	}
+
+	return nullptr;
+}
 
 template<typename AssetType>
 TSubclassOf<AssetType> UGFCAssetManager::GetSubclass(const TSoftClassPtr<AssetType>& AssetPointer, bool bKeepInMemory)
@@ -138,6 +175,8 @@ TSubclassOf<AssetType> UGFCAssetManager::GetSubclass(const TSoftClassPtr<AssetTy
 		{
 			Get().AddLoadedAsset(Cast<UObject>(LoadedSubclass));
 		}
+
+		return LoadedSubclass;
 	}
 
 	return nullptr;
