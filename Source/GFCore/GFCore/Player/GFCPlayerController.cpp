@@ -10,8 +10,6 @@
 #include UE_INLINE_GENERATED_CPP_BY_NAME(GFCPlayerController)
 
 
-const FName AGFCPlayerController::NAME_PlayerStateReady("PlayerStateReady");
-
 AGFCPlayerController::AGFCPlayerController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 #include "GFCPawn.h"
 
@@ -26,4 +26,9 @@ void AGFCPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
 
 	Super::EndPlay(EndPlayReason);
+}
+
+void AGFCPawn::OnPlayerStateChanged(APlayerState* NewPlayerState, APlayerState* OldPlayerState)
+{
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, AGFCPawn::NAME_PlayerStateReady);
 }

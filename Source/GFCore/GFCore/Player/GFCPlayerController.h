@@ -20,7 +20,7 @@ public:
 	//
 	// Name of the event that signals that PlayerState is ready.
 	//
-	static const FName NAME_PlayerStateReady;
+	inline static const FName NAME_PlayerStateReady{ TEXTVIEW("PlayerStateReady") };
 
 public:
 	virtual void PreInitializeComponents() override;

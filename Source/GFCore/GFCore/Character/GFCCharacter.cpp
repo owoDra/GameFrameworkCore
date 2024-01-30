@@ -36,6 +36,11 @@ void AGFCCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+void AGFCCharacter::OnPlayerStateChanged(APlayerState* NewPlayerState, APlayerState* OldPlayerState)
+{
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, AGFCCharacter::NAME_PlayerStateReady);
+}
+
 
 TArray<USkeletalMeshComponent*> AGFCCharacter::GetMeshes_Implementation() const
 {

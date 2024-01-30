@@ -20,10 +20,17 @@ class GFCORE_API AGFCCharacter
 public:
 	AGFCCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	//
+	// Name of the event that signals that PlayerState is ready.
+	//
+	inline static const FName NAME_PlayerStateReady{ TEXTVIEW("PlayerStateReady") };
+
 public:
 	virtual void PreInitializeComponents() override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void OnPlayerStateChanged(APlayerState* NewPlayerState, APlayerState* OldPlayerState) override;
 
 
 	////////////////////////////////////////////////
