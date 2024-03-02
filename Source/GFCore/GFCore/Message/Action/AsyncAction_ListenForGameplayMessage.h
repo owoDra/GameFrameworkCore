@@ -56,8 +56,8 @@ public:
 	 * @param PayloadType		The kind of message structure to use (this must match the same type that the sender is broadcasting)
 	 * @param MatchType			The rule used for matching the channel with broadcasted messages
 	 */
-	UFUNCTION(BlueprintCallable, Category = Messaging, meta = (WorldContext = "WorldContextObject", BlueprintInternalUseOnly = "true", GameplayTagFilter = "Message"))
-	static UAsyncAction_ListenForGameplayMessage* ListenForGameplayMessages(UObject* WorldContextObject, FGameplayTag Channel, UScriptStruct* PayloadType, EGameplayMessageMatch MatchType = EGameplayMessageMatch::ExactMatch);
+	UFUNCTION(BlueprintCallable, Category = Messaging, meta = (WorldContext = "WorldContextObject", BlueprintInternalUseOnly = "true"))
+	static UAsyncAction_ListenForGameplayMessage* ListenForGameplayMessages(UObject* WorldContextObject, UPARAM(meta = (Categories = "Message")) FGameplayTag Channel, UScriptStruct* PayloadType, EGameplayMessageMatch MatchType = EGameplayMessageMatch::ExactMatch);
 
 	/**
 	 * Attempt to copy the payload received from the broadcasted gameplay message into the specified wildcard.
