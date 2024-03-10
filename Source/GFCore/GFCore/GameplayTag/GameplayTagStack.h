@@ -129,7 +129,7 @@ public:
 
 	//////////////////////////////////////////////////////////
 	// Container parameters
-private:
+public:
 	//
 	// Replicated list of gameplay tag stacks
 	//
